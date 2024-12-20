@@ -1,0 +1,29 @@
+{# _messages.html.twig #}
+{% for message in messages %}
+    <div class="message-bubble {% if message.sender == currentUser %}outgoing{% else %}incoming{% endif %}">
+        <div class="message-inner">
+            {% if message.sender != currentUser %}
+                <div class="user-avatar">
+                    <div class="avatar-circle">{{ message.sender.fullname|slice(0, 2)|upper }}</div>
+                </div>
+            {% endif %}
+            
+            <div class="message-box">
+                {% if message.sender != currentUser %}
+                    <div class="sender-name">{{ message.sender.fullname }}</div>
+                {% endif %}
+                <div class="message-text">{{ message.content }}</div>
+                <div class="message-meta">
+                    <span class="time">{{ message.createdAt|date('H:i') }}</span>
+                    {% if message.sender == currentUser %}
+                        <span class="status">
+                            <svg width="16" height="16" viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

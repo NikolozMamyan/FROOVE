@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<link href="{{ asset('styles/login.css') }}" rel="stylesheet">
+
+<div class="auth-container">
+    <div class="auth-box">
+        <div class="auth-header">
+            <div class="logo"></div>
+            <h1 class="auth-title" id="formTitle">Connexion</h1>
+            <p class="auth-subtitle" id="formSubtitle">Ravi de vous revoir !</p>
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="alert alert-info">
+                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, 
+                <a href="{{ path('app_logout') }}" class="switch-btn">Déconnexion</a>
+            </div>
+        {% endif %}
+
+        <div class="form-wrapper" id="formWrapper">
+            {# Formulaire de connexion #}
+            <div class="auth-form login-form">
+                <form method="post">
+                    <div class="form-group">
+                        <label class="form-label" for="inputEmail">Email</label>
+                        <input 
+                            type="email" 
+                            value="{{ last_username }}" 
+                            name="email" 
+                            id="inputEmail" 
+                            class="form-control" 
+                            autocomplete="email" 
+                            required 
+                            autofocus
+                            placeholder="email@exemple.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="inputPassword">Mot de passe</label>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            id="inputPassword" 
+                            class="form-control" 
+                            autocomplete="current-password" 
+                            required
+                            placeholder="••••••••"
+                        >
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <button type="submit" class="auth-btn mt-3">Se connecter</button>
+                </form>
+            </div>
+
+            {# Formulaire d'inscription #}
+            <div class="auth-form register-form">
+                <form method="post" action="{{ path('app_register') }}">
+                    <div class="form-group">
+                        <label class="form-label" for="registerName">Nom</label>
+                        <input 
+                            type="text" 
+                            name="name" 
+                            id="registerName" 
+                            class="form-control" 
+                            required
+                            placeholder="Nom et Prénom"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="registerEmail">Email</label>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="registerEmail" 
+                            class="form-control" 
+                            required
+                            placeholder="email@exemple.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="registerPassword">Mot de passe</label>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            id="registerPassword" 
+                            class="form-control" 
+                            required
+                            placeholder="••••••••"
+                        >
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('register') }}">
+
+                    <button type="submit" class="auth-btn">S'inscrire</button>
+                </form>
+            </div>
+        </div>
+
+        <p class="switch-text">
+            <span id="switchText">Pas encore de compte ?</span> 
+            <a href="#" id="switchBtn" class="switch-btn">S'inscrire</a>
+        </p>
+
+        {# <div class="divider">
+            <span>ou continuer avec</span>
+        </div>
+
+        <div class="social-login">
+            <a class="social-btn">
+                <i class="bi bi-google"></i>
+            </a>
+            <a class="social-btn">
+                <i class="bi bi-apple"></i>
+            </a>
+            <a class="social-btn">
+                <i class="bi bi-facebook"></i>
+            </a>
+        </div> #}
+    </div>
+</div>
+
+
+
+<script src="{{ asset('js/login.js') }}"> </script>
+{% endblock %}

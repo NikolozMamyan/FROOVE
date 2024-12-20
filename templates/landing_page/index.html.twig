@@ -1,0 +1,309 @@
+{# templates/home/landing.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Froove - Partagez des moments, gagnez des points{% endblock %}
+
+{% block body %}
+    {# Hero Section #}
+    <section class="hero min-vh-100 d-flex align-items-center position-relative">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-3 fw-bold mb-4">Transformez vos moments en opportunités</h1>
+                    <p class="lead mb-4">Proposez ou rejoignez des activités, rencontrez de nouvelles personnes et gagnez des points convertibles en argent.</p>
+                    <div class="d-flex gap-3">
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-lg">S'inscrire</a>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="{{ asset('img/landingpage/hero.png') }}" alt="Froove Activities" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <div class="shape-bottom">
+            <svg viewBox="0 0 1440 200">
+                <path fill="#ffffff" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,106.7C960,117,1056,139,1152,138.7C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    {# Features Section #}
+    <section class="features py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Comment ça marche ?</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-calendar-plus display-4 mb-3 text-primary"></i>
+                            <h3 class="h4">Créez votre annonce</h3>
+                            <p>Proposez une activité et fixez vos points de récompense</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-people display-4 mb-3 text-primary"></i>
+                            <h3 class="h4">Rencontrez</h3>
+                            <p>Choisissez parmi les réponses et partagez un moment</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-coin display-4 mb-3 text-primary"></i>
+                            <h3 class="h4">Gagnez des points</h3>
+                            <p>Convertissez vos points en argent réel</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Activities Preview Section #}
+    <section class="activities bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Activités populaires</h2>
+            <div class="row g-4">
+                {% for ads in ads_limit %}
+                    <div class="col-md-4">
+                        <div class="card activity-card border-0 shadow-sm">
+                            <div class="card-body">
+                                <span class="badge bg-primary mb-2">{{ ads.category}}</span>
+                                <h3 class="h5">{{ads.title}}</h3>
+                                <p class="text-muted mb-3"><i class="bi bi-geo-alt"></i> {{ads.location}}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="points"><i class="bi bi-coin"></i> {{ads.price}}</span>
+                                    <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-sm">Voir plus</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {# CTA Section #}
+    <section class="cta py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="mb-4">Prêt à commencer l'aventure ?</h2>
+                    <p class="lead mb-4">Rejoignez notre communauté et commencez à partager des moments uniques</p>
+                    <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg">Créer un compte gratuitement</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+    :root {
+    --primary: #6C63FF;
+    --secondary: #8B5CF6;
+    --text-dark: #2D3436;
+    --text-light: #636E72;
+    --bg-light: #F5F6FA;
+    --white: #FFFFFF;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --gradient: linear-gradient(135deg, #6C63FF, #8B5CF6);
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+}
+/* Style des boutons */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: var(--gradient);
+    border: none;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, #7a74ff, #9d75ff);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--gradient);
+    border-color: transparent;
+    color: var(--white);
+    transform: translateY(-2px);
+}
+      .hero {
+    background: var(--gradient);
+    position: relative;
+    padding: 6rem 0;
+}
+
+.hero {
+    /* Améliorer le contraste */
+    --overlay-color: rgba(0, 0, 0, 0.4);
+    position: relative;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h1 {
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero .lead {
+    animation: fadeInUp 1s ease-out 0.2s;
+}
+
+.hero .btn {
+    animation: fadeInUp 1s ease-out 0.4s;
+}
+.hero .btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hero .btn:active {
+    transform: scale(0.95);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.activity-card {
+    border-radius: var(--radius-md);
+    background: var(--white);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.activity-card .badge {
+    background: var(--gradient);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+}
+
+.activity-card .points {
+    color: var(--primary);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.features .card {
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
+.features .card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.features .bi {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+/* Typographie */
+body {
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+}
+
+/* Espacements */
+section {
+    padding: 5rem 0;
+}
+
+/* Animation au scroll */
+.fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero h1 {
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero .lead {
+    animation: fadeInUp 1s ease-out 0.2s;
+}
+
+.hero .btn {
+    animation: fadeInUp 1s ease-out 0.4s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+    </style>
+{% endblock %}

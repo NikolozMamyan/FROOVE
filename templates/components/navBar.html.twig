@@ -1,0 +1,216 @@
+<!-- Inclure Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+    :root {
+        --primary: #2D3436;
+        --secondary: #636E72;
+        --accent: #6C63FF;
+        --light: #DFE6E9;
+        --bg: #F5F6FA;
+    }
+
+nav{
+    z-index:100;
+    
+}
+
+    .navbar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        
+    }
+
+    .logo {
+        color: var(--light);
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .user-points {
+        color: var(--light);
+        text-align: center;
+        font-weight:bold;
+    }
+
+    .user-points i {
+        font-size: 1.3rem;
+        color: #FFD700;
+    }
+
+
+    .nav-icons {
+ position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    background-color: #00000066;
+    z-index: 10; /* Assurez-vous que ce n'est pas trop élevé */
+    height: 60px; /* Ajustez cette hauteur pour mieux gérer les proportions */
+    }
+body {
+    margin-bottom: 100px; /* Correspond à la hauteur de .nav-icons */
+}
+    .nav-link {
+        color: white !important;
+        font-size: 1.7rem;
+        font-weight:bold;
+        transition: color 0.3s ease-in-out;
+        position: relative;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--accent) !important;
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: 0;
+        right: -0.3rem;
+        background-color: #E74C3C;
+        color: #fff;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+        border-radius: 50%;
+    }
+    .dropdown-toggle::after{
+        display:none;
+    }
+    /* Styles pour les notifications */
+.notification-content {
+    word-wrap: break-word; /* Permet de couper les longs textes */
+}
+
+.notification-message {
+    font-size: 0.9rem; /* Réduit légèrement la taille pour les petits écrans */
+}
+.dropup .dropdown-toggle::after {
+    display:none;
+}
+
+/* Flexibilité pour les boutons */
+.dropdown-item .btn {
+    font-size: 0.8rem; /* Réduit la taille des boutons */
+    padding: 0.3rem 0.6rem; /* Ajuste l'espacement interne */
+}
+
+/* Gestion des petits écrans */
+@media (max-width: 576px) {
+    .dropdown-item {
+   
+        max-width:350px;
+    }
+
+.notification-content {
+width:250px;
+    white-space: normal; /* Force le retour à la ligne */
+}
+
+
+    .btn {
+        width: 100%; /* Les boutons prennent toute la largeur */
+    }
+}
+.navbar-header.hidden {
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+    .navbar-header {
+        background-color: var(--accent);
+        position:fixed;
+    }
+
+
+</style>
+{% if app.user %}
+
+<nav class="navbar" >
+    <!-- En-tête de la navbar -->
+    <div class="navbar-header pt-5  container-fluid"> 
+        <div class="logo">
+            Logo
+        </div>
+            <div class="user-points me-2">
+            <span title="Vos points">
+                <i class="bi bi-coin"></i> {{ userPoints }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Icônes de navigation -->
+    <div class="nav-icons">
+        <a class="nav-link active" href="{{ path('app_ads') }}" title="Accueil">
+            <i class="bi bi-house-door-fill"></i>
+        </a>
+        <a class="nav-link" href="{{ path('app_profil') }}" title="Profil">
+            <i class="bi bi-person-circle"></i>
+        </a>
+        <a class="nav-link" href="{{ path('app_chat') }}" title="Messages">
+            <i class="bi bi-chat-dots-fill"></i>
+        </a>
+        <div class="nav-item dropup">
+            <a class="nav-link dropdown-toggle" href="#" title="Notifications" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bell-fill"></i>
+                {% if unreadCount > 0 %}
+                    <span class="notification-badge">{{ unreadCount }}</span>
+                {% endif %}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown">
+                {% if unreadNotifications|length > 0 %}
+                    {% for notification in unreadNotifications %}
+                       <li>
+    <div class="dropdown-item d-flex flex-column">
+        <!-- Message et date -->
+        <div class="notification-content">
+            <span class="notification-message">{{ notification.message }}</span>
+            <small class="text-muted d-block">{{ notification.createdAt|date('d/m/Y H:i') }}</small>
+        </div>
+
+        <!-- Vérifiez si la notification concerne une demande acceptée -->
+{% if notification.message matches '/a accepté votre demande/' %}
+    <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
+<a class="btn btn-sm btn-primary flex-grow-1 flex-md-grow-0" 
+   href="{{ path('app_notification_read_and_chat', { id: notification.id }) }}">
+    Aller au chat
+</a>
+
+    </div>
+{% else %}
+    <!-- Boutons pour accepter et refuser -->
+    <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
+        <a class="btn btn-sm btn-success flex-grow-1 flex-md-grow-0" 
+           href="{{ path('app_notification_accept', { id: notification.id }) }}">
+            Accepter
+        </a>
+        <a class="btn btn-sm btn-danger flex-grow-1 flex-md-grow-0" 
+           href="{{ path('app_notification_reject', { id: notification.id }) }}">
+            Refuser
+        </a>
+    </div>
+{% endif %}
+
+    </div>
+</li>
+
+
+                    {% endfor %}
+                {% else %}
+                    <li><span class="dropdown-item-text">Aucune notification</span></li>
+                {% endif %}
+            </ul>
+            
+        </div>
+    </div>
+
+</nav>
+{% endif %}
+<script src="{{ asset('js/navbar.js') }}"> </script>
+
+

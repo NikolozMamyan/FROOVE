@@ -1,0 +1,483 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les annonces{% endblock %}
+
+{% block stylesheets %}
+<style>
+:root {
+    --primary: #6C63FF;
+    --secondary: #8B5CF6;
+    --text-dark: #2D3436;
+    --text-light: #636E72;
+    --bg-light: #F5F6FA;
+    --white: #FFFFFF;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --gradient: linear-gradient(135deg, #6C63FF, #8B5CF6);
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Hero Section */
+.ads-hero {
+    background: var(--gradient);
+    padding: 3.5rem 1rem;
+    text-align: center;
+    color: var(--white);
+    margin-top: 0 !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.ads-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 25px 25px, rgba(255,255,255,0.2) 2%, transparent 0%);
+    background-size: 50px 50px;
+    opacity: 0.4;
+}
+
+.ads-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.ads-hero p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Filters */
+.ads-filters {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    margin: -2rem 1rem 2rem;
+    position: relative;
+    z-index: 10;
+    box-shadow: var(--shadow-md);
+}
+
+.ads-filters form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.form-select, .form-control {
+    border: 2px solid #eee;
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 150px;
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+    outline: none;
+}
+
+/* Ad Cards */
+.ads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.ad-card {
+    background: var(--white);
+    border: none;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+}
+
+.ad-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.ad-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.ad-card-header {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.ad-card-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+}
+
+.ad-card-user {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.ad-card-category {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(108, 99, 255, 0.9);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    backdrop-filter: blur(5px);
+    font-size: 0.85rem;
+    font-weight: 500;
+    width: auto;
+}
+
+.ad-card-body {
+    padding: 1.25rem;
+}
+
+.ad-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.ad-card-location, 
+.ad-card-date, 
+.ad-card-price {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin: 0.5rem 0;
+}
+
+.ad-card-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+/* Buttons */
+.btn-accent {
+    background: var(--gradient);
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    opacity: 0.95;
+}
+
+/* Modal */
+.modal-content {
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+    background: var(--gradient);
+    color: var(--white);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 1.5rem;
+    border: none;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-footer {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    border: none;
+}
+
+/* Floating Create Button */
+.floating-create-btn {
+    position: fixed;
+    bottom: 5rem;
+    right: 2rem;
+    z-index: 20;
+}
+
+.floating-create-btn .btn {
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Slide Button */
+.nm-Button {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.nm-Button:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ads-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .ads-filters form {
+        flex-direction: column;
+    }
+    
+    .floating-create-btn {
+        bottom: 5rem;
+        right: 1rem;
+    }
+    
+    .floating-create-btn .btn {
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+/* Messages */
+.modal-message-container {
+    margin-bottom: 1rem;
+}
+
+.modal-message-box {
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+.modal-message-box.success {
+    background: #4CAF50;
+    color: var(--white);
+}
+
+.modal-message-box.error {
+    background: #F44336;
+    color: var(--white);
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="ads-hero mt-5">
+    <h1>Toutes les annonces</h1>
+    <p>Découvrez les différentes activités proposées par nos utilisateurs. Filtrez par catégorie, lieu ou tarif.</p>
+</div>
+
+<div class="container p-0">
+<div class="floating-create-btn">
+    <button type="button" class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#createAdModal">
+        <i class="bi bi-plus-circle"></i> Créer un événement
+    </button>
+</div>
+<div class="modal fade" id="createAdModal" tabindex="-1" aria-labelledby="createAdModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createAdModalLabel">Créer une annonce</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <form method="POST" action="{{ path('app_ads_create') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titre</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Catégorie</label>
+                        <select name="category" class="form-select" required>
+                            <option value="Cinéma">Cinéma</option>
+                            <option value="Dîner">Dîner</option>
+                            <option value="Musée">Musée</option>
+                            <option value="Sport">Sport</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Lieu</label>
+                        <input type="text" name="location" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="datetime-local" name="date" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Prix</label>
+                        <input type="number" name="price" class="form-control" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="currency" class="form-label">Devise</label>
+                        <select name="currency" class="form-select" required>
+                            <option value="EUR">Euro (€)</option>
+                            <option value="USD">Dollar ($)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-accent">Créer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="ads-filters mb-4">
+    <form class="row g-2" method="GET" action="{{ path('app_ads') }}">
+        <select name="category" class="form-select col" aria-label="Filtrer par catégorie">
+            <option {% if selectedCategory is null or selectedCategory == 'Catégorie' %}selected{% endif %}>Catégorie</option>
+            <option value="Cinéma" {% if selectedCategory == 'Cinéma' %}selected{% endif %}>Cinéma</option>
+            <option value="Dîner" {% if selectedCategory == 'Dîner' %}selected{% endif %}>Dîner</option>
+            <option value="Musée" {% if selectedCategory == 'Musée' %}selected{% endif %}>Musée</option>
+            <option value="Sport" {% if selectedCategory == 'Sport' %}selected{% endif %}>Sport</option>
+        </select>
+
+        <input type="text" name="location" class="form-control col" placeholder="Lieu (ex: Paris)" value="{{ selectedLocation }}">
+
+        <select name="currency" class="form-select col" aria-label="Filtrer par devise">
+            <option {% if selectedCurrency is null or selectedCurrency == 'Devise' %}selected{% endif %}>Devise</option>
+            <option value="EUR" {% if selectedCurrency == 'EUR' %}selected{% endif %}>Euro (€)</option>
+            <option value="USD" {% if selectedCurrency == 'USD' %}selected{% endif %}>Dollar ($)</option>
+        </select>
+
+        <button class="btn-accent col-auto" type="submit">
+            <i class="bi bi-funnel"></i> Appliquer les filtres
+        </button>
+    </form>
+</div>
+
+<div class="ads-grid">
+{% for ad in ads %}
+<div class="ad-card m-0">
+    <!-- Image principale -->
+    <img src="{{ asset('img/test/' ~ ad.img) }}" alt="Image de l'annonce {{ ad.title }}" class="ad-card-image">
+
+    <!-- En-tête de la carte -->
+    <div class="ad-card-header">
+<img src="{{ asset('img/test/avatar.jpg') }}" 
+     alt="Avatar de {{ ad.user.fullName }}" class="ad-card-avatar">
+
+        <span class="ad-card-user">{{ ad.user.fullName }}</span>
+    </div>
+
+    <!-- Catégorie de l'annonce -->
+    <div class="ad-card-category">
+        <span>{{ ad.category }}</span>
+    </div>
+
+    <!-- Détails de l'annonce -->
+    <div class="ad-card-body">
+        <h3 class="ad-card-title">{{ ad.title }}</h3>
+        <p class="ad-card-location"><strong>Lieu :</strong> {{ ad.location }}</p>
+        <p class="ad-card-date"><strong>Date :</strong> {{ ad.date|date('d/m/Y H:i') }}</p>
+        <p class="ad-card-price"><strong>Tarif :</strong> {{ ad.price }} {{ ad.currency }}</p>
+    </div>
+
+    <!-- Bouton détails -->
+    <div class="ad-card-footer">
+        <button class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#detailsModal-{{ ad.id }}">
+            <i class="bi bi-eye"></i> Détails
+        </button>
+    </div>
+</div>
+{% endfor %}
+
+</div>
+
+</div>
+
+{% for ad in ads %}
+
+    <div class="modal fade" id="detailsModal-{{ ad.id }}" tabindex="-1" aria-labelledby="detailsModalLabel-{{ ad.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalLabel">Détails de l'annonce</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+<div class="modal-body">
+    <div id="modalMessageContainer-{{ ad.id }}" class="modal-message-container"></div>
+    <h6>Activité : Sortie au cinéma</h6>
+    <p><strong>Catégorie :</strong> Cinéma</p>
+    <p><strong>Lieu :</strong> Paris, France</p>
+    <p><strong>Date :</strong> 15/12/2024 à 20:00</p>
+    <p><strong>Tarif :</strong> 200 points</p>
+    <hr>
+    <p><strong>Description :</strong><br>
+        Venez passer une soirée sympathique au cinéma, découvrir le dernier film à l'affiche. Après le film, nous pourrons échanger nos impressions autour d'un verre (optionnel). Ouvert à tous, ambiance détendue et conviviale.
+    </p>
+</div>
+      <div class="modal-footer">
+         <button type="button" class="nm-Button d-flex justify-content-center w-100 participate-btn" data-ad-id="{{ ad.id }}">Participer</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<script src="{{ asset('js/ads.js') }}"> </script>
+{% endblock %}
+
+
+
+
