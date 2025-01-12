@@ -91,7 +91,7 @@ class AdsController extends AbstractController
         $user  = $this->getUser();
         $userPoints = $user ? $user->getPoints() : 0;
         
-        return $this->render('components/navbar.html.twig', [
+        return $this->render('components/navBar.html.twig', [
             'unreadCount' => count($unreadNotifications),
             'unreadNotifications' => $unreadNotifications,
             'userPoints' => $userPoints,

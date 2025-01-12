@@ -142,8 +142,8 @@ body {
 {% endblock %}
 
 {% block body %}
-<div class="profile-hero">
-    <img src="{{ user.avatar }}" alt="{{ user.username }}" class="avatar">
+<div class="profile-hero mt-5">
+    <img src="{{ asset('img/test/avatar.jpg')}}" alt="{{ user.username }}" class="avatar">
     <h1>{{ user.username }}</h1>
     {% if user.verified %}
         <span class="badge-custom">Vérifié</span>

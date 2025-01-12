@@ -1,4 +1,5 @@
 document.addEventListener('turbo:load', function() {
+    
     const formWrapper = document.getElementById('formWrapper');
     const switchBtn = document.getElementById('switchBtn');
     const formTitle = document.getElementById('formTitle');

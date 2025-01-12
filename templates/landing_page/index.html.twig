@@ -9,11 +9,11 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="display-3 fw-bold mb-4">Transformez vos moments en opportunités</h1>
-                    <p class="lead mb-4">Proposez ou rejoignez des activités, rencontrez de nouvelles personnes et gagnez des points convertibles en argent.</p>
+                    <h1 class="display-3 fw-bold mb-4">Discover FROOVE Where Your Passions Meet People</h1>
+                    <p class="lead mb-4">Welcome to FROOVE, the revolutionary platform that redefines how we connect. By engaging in real-life activities, you get to value your time and craft meaningful, authentic experiences.</p>
                     <div class="d-flex gap-3">
-                        <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg">S'inscrire</a>
-                       
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-primary text-light btn-lg" data-turbo="false">Login</a>
+                        <a href="{{ path('app_register') }}" class="btn btn-outline-primary text-light  btn-lg" data-turbo="false">SignUp</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -31,14 +31,14 @@
     {# Features Section #}
     <section class="features py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Comment ça marche ?</h2>
+            <h2 class="text-center mb-5">💡 Here’s How It Works:</h2>
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <i class="bi bi-calendar-plus display-4 mb-3 text-primary"></i>
-                            <h3 class="h4">Créez votre annonce</h3>
-                            <p>Proposez une activité et fixez vos points de récompense</p>
+                            <h3 class="h4">Embark on Real-Life Adventures</h3>
+                            <p> Whether it's biking through the city, exploring museums, or sharing a coffee, Froove turns your passions into shared adventures.</p>
                         </div>
                     </div>
                 </div>
@@ -46,17 +46,17 @@
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <i class="bi bi-people display-4 mb-3 text-primary"></i>
-                            <h3 class="h4">Rencontrez</h3>
-                            <p>Choisissez parmi les réponses et partagez un moment</p>
+                            <h3 class="h4">Value Your Time</h3>
+                            <p>Your time is precious. Set your own price, and get rewarded for doing what you love.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
-                            <i class="bi bi-coin display-4 mb-3 text-primary"></i>
-                            <h3 class="h4">Gagnez des points</h3>
-                            <p>Convertissez vos points en argent réel</p>
+                            <i class="bi bi-heart display-4 mb-3 text-primary"></i>
+                            <h3 class="h4">Connect and Experience</h3>
+                            <p>Meet like-minded souls, forge genuine bonds, and make every moment unforgettable.</p>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
     {# Activities Preview Section #}
     <section class="activities bg-light py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Activités populaires</h2>
+            <h2 class="text-center mb-5"> Last activities</h2>
             <div class="row g-4">
                 {% for ads in ads_limit %}
                     <div class="col-md-4">
@@ -78,7 +78,7 @@
                                 <p class="text-muted mb-3"><i class="bi bi-geo-alt"></i> {{ads.location}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="points"><i class="bi bi-coin"></i> {{ads.price}}</span>
-                                    <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-sm">Voir plus</a>
+                                    <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-sm" data-turbo="false">Show</a>
                                 </div>
                             </div>
                         </div>
@@ -87,19 +87,53 @@
             </div>
         </div>
     </section>
-
-    {# CTA Section #}
-    <section class="cta py-5">
+{# Join Revolution Section #}
+<section class="cta py-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <h2 class="mb-4">Prêt à commencer l'aventure ?</h2>
-                    <p class="lead mb-4">Rejoignez notre communauté et commencez à partager des moments uniques</p>
-                    <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg">Créer un compte gratuitement</a>
+                    <h2 class="mb-4">Why FROOVE?</h2>
+                    <p class="lead mb-4">Are you weary of endless swiping, surface-level chats, and time spent without purpose? FROOVE is here to change that. We believe in connecting through what truly matters: shared passions and real-life moments.</p>
                 </div>
             </div>
         </div>
     </section>
+<section class="revolution py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center mb-5">
+                    <h2 class="mb-4">Be Part of the FROOVE Revolution!</h2>
+                    <p class="lead mb-4">🚀 We're on the brink of launch, and we want YOU to be among the first to experience this new way of connecting.</p>
+                </div>
+                <div class="card border-0 shadow-sm p-4 mb-5">
+                    <div class="card-body">
+                        <h3 class="h4 mb-4">📧 Sign Up Now to:</h3>
+                        <div class="benefits mb-4">
+                            <p class="mb-2">✅ Secure your spot for exclusive early access</p>
+                            <p class="mb-2">✅ Start monetizing your passions immediately</p>
+                            <p class="mb-2">✅ Stay in the loop with updates and enjoy insider perks</p>
+                        </div>
+                        <div class="text-center">
+                            <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg" data-turbo="false">👉 Join Today!</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <h3 class="h4 text-center mb-4">What Makes FROOVE Special?</h3>
+                    <div class="card border-0 shadow-sm p-4">
+                        <div class="card-body">
+                            <p class="lead text-center mb-3">💬 "FROOVE isn't just about doing activities; it's about building a community through shared joy."</p>
+                            <p class="text-center text-muted mb-0">- Alex, FROOVE Beta Tester</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
 {% endblock %}
 
 {% block stylesheets %}
@@ -293,6 +327,34 @@ section {
 
 .hero .btn {
     animation: fadeInUp 1s ease-out 0.4s;
+}
+.revolution {
+    background-color: var(--bg-light);
+}
+
+.revolution .benefits p {
+    position: relative;
+    padding-left: 2rem;
+    font-size: 1.1rem;
+}
+
+.revolution .card {
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
+.revolution .card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.testimonial .card {
+    background: linear-gradient(135deg, rgba(108, 99, 255, 0.05), rgba(139, 92, 246, 0.05));
+}
+
+.testimonial .lead {
+    font-style: italic;
+    color: var(--text-dark);
 }
 
 @keyframes fadeInUp {
