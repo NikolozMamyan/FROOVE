@@ -68,8 +68,7 @@ class SecurityController extends AbstractController
             $user->setActivationToken($activationToken);
             $user->setEmail($email);
             $user->setFullName($name);
-
-    
+            $user->setRoles(['ROLE_USER']);
     
             $hashedPassword = $passwordHasher->hashPassword($user, $password);
             $user->setPassword($hashedPassword);

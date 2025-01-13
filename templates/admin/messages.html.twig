@@ -1,0 +1,45 @@
+{# templates/admin/messages.html.twig #}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Conversations{% endblock %}
+{% block header_title %}Liste des conversations{% endblock %}
+
+{% block body %}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Utilisateurs</th>
+                        <th>Nombre de messages</th>
+                        <th>Dernier message</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for conv in conversations %}
+                        <tr>
+                            <td>
+                                <strong>{{ conv.sender.fullName }}</strong>
+                                <i class="fas fa-exchange-alt mx-2"></i>
+                                <strong>{{ conv.recipient.fullName }}</strong>
+                            </td>
+                            <td>{{ conv.message_count }}</td>
+                            <td>{{ conv.last_message_date|date('d/m/Y H:i') }}</td>
+                            <td>
+                                <a href="{{ path('admin_messages_conversation', {
+                                    'senderId': conv.sender_id,
+                                    'recipientId': conv.recipient_id
+                                }) }}" class="btn btn-primary btn-sm">
+                                    Voir la conversation
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

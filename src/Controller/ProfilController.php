@@ -14,9 +14,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+#[Route('/web', name: 'app_')]
 class ProfilController extends AbstractController
 {
-    #[Route('/profil', name: 'app_profil')]
+    #[Route('/profil', name: 'profil')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
        /** @var User $user */
@@ -67,7 +69,7 @@ class ProfilController extends AbstractController
        ]);
     }
 
-    #[Route('/notifications', name: 'app_notif')]
+    #[Route('/notifications', name: 'notif')]
 public function notif(NotificationRepository $notifRepo)
 {
     $user = $this->getUser();
@@ -80,7 +82,7 @@ public function notif(NotificationRepository $notifRepo)
 }
 
 
-    #[Route('/notifications/{id}/mark-read', name: 'app_notif_mark_read', methods: ['POST'])]
+    #[Route('/notifications/{id}/mark-read', name: 'notif_mark_read', methods: ['POST'])]
 public function markRead($id, NotificationRepository $notifRepo, EntityManagerInterface $em)
 {
     $user = $this->getUser();
@@ -111,7 +113,7 @@ public function markRead($id, NotificationRepository $notifRepo, EntityManagerIn
     return $this->redirectToRoute('app_notif');
 }
 
-#[Route('/conversation/{id}/accept', name: 'app_conversation_accept', methods: ['POST'])]
+#[Route('/conversation/{id}/accept', name: 'conversation_accept', methods: ['POST'])]
 public function acceptConversation($id, EntityManagerInterface $em, ConversationRepository $convRepo): Response
 {
     $conversation = $convRepo->find($id);
@@ -135,7 +137,7 @@ public function acceptConversation($id, EntityManagerInterface $em, Conversation
     return $this->redirectToRoute('app_conversation_show', ['id' => $conversation->getId()]);
 }
 
-#[Route('/conversation/{id}/refuse', name: 'app_conversation_refuse', methods: ['POST'])]
+#[Route('/conversation/{id}/refuse', name: 'conversation_refuse', methods: ['POST'])]
 public function refuseConversation($id, EntityManagerInterface $em, ConversationRepository $convRepo, NotificationRepository $notifRepo): Response
 {
     $conversation = $convRepo->find($id);

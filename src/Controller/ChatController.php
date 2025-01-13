@@ -11,13 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+#[Route('/web', name: 'app_')]
 class ChatController extends AbstractController
 {
 
 
 
 
-    #[Route('/chat', name: 'app_chat')]
+    #[Route('/chat', name: 'chat')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
@@ -48,20 +50,13 @@ class ChatController extends AbstractController
         ]);
     }
     
-
-
-
-
-
-
-
-    #[Route('/chat/{id}', name: 'app_chat_send')]
+    #[Route('/chat/{id}', name: 'chat_send')]
     public function sendMessage(User $otherUser, Request $request, EntityManagerInterface $em): Response
     {
         $currentUser = $this->getUser();
         if (!$currentUser) {
             // L'utilisateur doit être connecté
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
 
@@ -100,7 +95,7 @@ class ChatController extends AbstractController
         ]);
     }
 
-    #[Route('/chat/messages/{id}', name: 'app_chat_messages')]
+    #[Route('/chat/messages/{id}', name: 'chat_messages')]
 public function fetchMessages(User $otherUser, EntityManagerInterface $em): Response
 {
     $currentUser = $this->getUser();

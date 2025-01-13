@@ -1,4 +1,4 @@
-document.addEventListener("turbo:load", function () {
+document.addEventListener("DOMContentLoaded", function () {
     let lastScrollTop = 0;
     const navbarHeader = document.querySelector(".navbar-header");
 

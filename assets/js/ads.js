@@ -6,7 +6,7 @@ document.addEventListener('turbo:load', function () {
             const adId = btn.getAttribute('data-ad-id');
             const modalMessageContainer = document.getElementById('modalMessageContainer-' + adId);
 
-            fetch('/ads/' + adId + '/participate', {
+            fetch('/web/ads/' + adId + '/participate', {
                 method: 'POST',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',

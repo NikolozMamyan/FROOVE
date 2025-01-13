@@ -323,66 +323,6 @@ body {
 </div>
 
 <div class="container p-0">
-<div class="floating-create-btn">
-    <button type="button" class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#createAdModal">
-        <i class="bi bi-plus-circle"></i> Créer un événement
-    </button>
-</div>
-<div class="modal fade" id="createAdModal" tabindex="-1" aria-labelledby="createAdModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createAdModalLabel">Créer une annonce</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-            </div>
-            <form method="POST" action="{{ path('app_ads_create') }}">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Titre</label>
-                        <input type="text" name="title" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="category" class="form-label">Catégorie</label>
-                        <select name="category" class="form-select" required>
-                            <option value="Cinéma">Cinéma</option>
-                            <option value="Dîner">Dîner</option>
-                            <option value="Musée">Musée</option>
-                            <option value="Sport">Sport</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Lieu</label>
-                        <input type="text" name="location" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="datetime-local" name="date" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Prix</label>
-                        <input type="number" name="price" class="form-control" min="0" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="currency" class="form-label">Devise</label>
-                        <select name="currency" class="form-select" required>
-                            <option value="EUR">Euro (€)</option>
-                            <option value="USD">Dollar ($)</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea name="description" class="form-control" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-accent">Créer</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
 <div class="ads-filters mb-4">
     <form class="row g-2" method="GET" action="{{ path('app_ads') }}">
         <select name="category" class="form-select col" aria-label="Filtrer par catégorie">

@@ -1,0 +1,47 @@
+{# templates/admin/conversation.html.twig #}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Conversation{% endblock %}
+{% block header_title %}Conversation entre {{ sender.fullName }} et {{ recipient.fullName }}{% endblock %}
+
+{% block body %}
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h5 class="mb-0">Messages</h5>
+            </div>
+            <div class="col text-end">
+                <a href="{{ path('admin_messages') }}" class="btn btn-secondary">
+                    Retour aux conversations
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="conversation-container" style="max-height: 600px; overflow-y: auto;">
+            {% for message in messages %}
+                <div class="message mb-3 {% if message.sender.id == sender.id %}text-end{% endif %}">
+                    <div class="message-content p-3 rounded {% if message.sender.id == sender.id %}bg-primary text-white{% else %}bg-light{% endif %}" style="display: inline-block; max-width: 70%;">
+                        <div class="message-header small mb-1">
+                            <strong>
+                                {% if message.sender.id == sender.id %}
+                                    {{ sender.fullName }}
+                                {% else %}
+                                    {{ recipient.fullName }}
+                                {% endif %}
+                            </strong>
+                            <span class="text-muted">
+                                {{ message.createdAt|date('d/m/Y H:i') }}
+                            </span>
+                        </div>
+                        <div class="message-body">
+                            {{ message.content }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

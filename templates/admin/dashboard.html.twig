@@ -1,0 +1,103 @@
+{# templates/admin/dashboard.html.twig #}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Dashboard Admin{% endblock %}
+{% block header_title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    {# Statistiques générales #}
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Utilisateurs</h5>
+                    <h2 class="card-text">{{ userCount }}</h2>
+                    <p class="mb-0">Utilisateurs inscrits</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Annonces</h5>
+                    <h2 class="card-text">{{ adsCount }}</h2>
+                    <p class="mb-0">Annonces publiées</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Messages</h5>
+                    <h2 class="card-text">{{ messagesCount }}</h2>
+                    <p class="mb-0">Messages échangés</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Dernières activités #}
+    <div class="row">
+        {# Derniers utilisateurs #}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Derniers utilisateurs inscrits</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in latestUsers|default([]) %}
+                                    <tr>
+                                        <td>{{ user.fullName }}</td>
+                                        <td>{{ user.email }}</td>
+                                        {# <td>{{ user.createdAt|date('d/m/Y') }}</td> #}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Dernières annonces #}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Dernières annonces publiées</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Titre</th>
+                                    <th>Prix</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ad in latestAds|default([]) %}
+                                    <tr>
+                                        <td>{{ ad.title }}</td>
+                                        <td>{{ ad.price }} {{ ad.currency }}</td>
+                                        <td>{{ ad.date|date('d/m/Y') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

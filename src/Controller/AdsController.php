@@ -13,9 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/web', name: 'app_')]
 class AdsController extends AbstractController
 {
-    #[Route('/ads', name: 'app_ads', methods: ['GET'])]
+    #[Route('/ads', name: 'ads', methods: ['GET'])]
     public function index(Request $request, AdsRepository $adsRepository, NotificationRepository $notificationRepository): Response
     {
         // Récupération des filtres depuis la requête GET
@@ -42,7 +43,7 @@ class AdsController extends AbstractController
     }
 
 
-    #[Route('/ads/{id}/participate', name: 'app_ads_participate', methods: ['POST'])]
+    #[Route('/ads/{id}/participate', name: 'ads_participate', methods: ['POST'])]
     public function participate(int $id, AdsRepository $adRepository, EntityManagerInterface $em): JsonResponse
     {
         // Récupérer l'annonce
@@ -76,7 +77,7 @@ class AdsController extends AbstractController
 
         return new JsonResponse([
             'success' => true,
-            'redirectUrl' => $this->generateUrl('app_ads') // Par exemple, retour à la liste des annonces
+            'redirectUrl' => $this->redirectToRoute('app_ads') // Par exemple, retour à la liste des annonces
         ]);
     }
 
@@ -97,7 +98,7 @@ class AdsController extends AbstractController
             'userPoints' => $userPoints,
         ]);
     }
-    #[Route('/ads/create', name: 'app_ads_create', methods: ['POST'])]
+    #[Route('/ads/create', name: 'ads_create', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $ad = new Ads();

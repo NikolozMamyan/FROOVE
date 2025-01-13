@@ -1,0 +1,44 @@
+{# templates/admin/ads.html.twig #}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des annonces{% endblock %}
+{% block header_title %}Gestion des annonces{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            <div class="mb-3">
+                <a href="#" class="btn btn-success">Ajouter une annonce</a>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>Catégorie</th>
+                        <th>Prix</th>
+                        <th>Lieu</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ad in ads %}
+                        <tr>
+                            <td>{{ ad.id }}</td>
+                            <td>{{ ad.title }}</td>
+                            <td>{{ ad.category }}</td>
+                            <td>{{ ad.price }} {{ ad.currency }}</td>
+                            <td>{{ ad.location }}</td>
+                            <td>{{ ad.date|date('d/m/Y') }}</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-primary">Éditer</a>
+                                <a href="#" class="btn btn-sm btn-danger">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

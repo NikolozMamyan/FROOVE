@@ -1,0 +1,72 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modfiier l'utilisateur{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">{{ user.fullName }}</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                        <div class="mb-3">
+                            {{ form_label(form.email, "Email", {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-text text-danger">
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.fullName, "Nom complet", {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.fullName, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-text text-danger">
+                                {{ form_errors(form.fullName) }}
+                            </div>
+                        </div>
+                        {# <div class="mb-3">
+                            {{ form_label(form.password, "Mot de passe", {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-text text-danger">
+                                {{ form_errors(form.password) }}
+                            </div>
+                        </div> #}
+     <div class="mb-3">
+    {{ form_label(form.roles, "Rôles", {'label_attr': {'class': 'form-label'}}) }}
+    <div>
+        {% for child in form.roles %}
+            <div class="form-check">
+                {{ form_widget(child, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(child, null, {'label_attr': {'class': 'form-check-label'}}) }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="form-text text-danger">
+        {{ form_errors(form.roles) }}
+    </div>
+</div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.points, "Points", {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.points, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-text text-danger">
+                                {{ form_errors(form.points) }}
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            {{ form_widget(form.isVerified, {'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_label(form.isVerified, "Utilisateur vérifié", {'label_attr': {'class': 'form-check-label'}}) }}
+                            <div class="form-text text-danger">
+                                {{ form_errors(form.isVerified) }}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Enregistrer</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

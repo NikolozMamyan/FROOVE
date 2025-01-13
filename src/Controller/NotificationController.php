@@ -9,9 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+#[Route('/web', name: 'app_')]
 class NotificationController extends AbstractController
 {
-    #[Route('/notifications/{id}/accept', name: 'app_notification_accept', methods: ['GET'])]
+    #[Route('/notifications/{id}/accept', name: 'notification_accept', methods: ['GET'])]
     public function acceptNotification(Notification $notification, EntityManagerInterface $em, AdsRepository $adRepository): Response
     {
         $notification->setIsRead(true);
@@ -76,11 +78,15 @@ try {
         $em->flush();
     
         // Rediriger vers la page de chat
-        return $this->redirectToRoute('app_chat_send', ['id' => $sender->getId()]);
+        return $this->redirectToRoute('app_chat_send', [
+            'id' => $sender->getId(),
+            '_turbo' => 'false', // Désactive Turbo pour cette redirection
+        ]);
+        
     }
     
 
-    #[Route('/notifications/{id}/reject', name:'app_notification_reject', methods:['GET'])]
+    #[Route('/notifications/{id}/reject', name:'notification_reject', methods:['GET'])]
     public function rejectNotification(Notification $notification, EntityManagerInterface $em)
     {
         // Marquer la notification comme lue
@@ -91,7 +97,7 @@ try {
         return $this->redirectToRoute('app_ads');
     }
 
-    #[Route('/notifications/{id}/read-and-chat', name: 'app_notification_read_and_chat', methods: ['GET'])]
+    #[Route('/notifications/{id}/read-and-chat', name: 'notification_read_and_chat', methods: ['GET'])]
     public function markNotificationAsReadAndRedirect(
         Notification $notification,
         EntityManagerInterface $em
@@ -101,7 +107,11 @@ try {
         $em->flush();
     
         // Redirige vers le chat avec l'expéditeur de la notification
-        return $this->redirectToRoute('app_chat_send', ['id' => $notification->getSender()->getId()]);
+        return $this->redirectToRoute('app_chat_send', [
+            'id' => $notification->getSender()->getId(),
+            '_turbo' => 'false', // Désactive Symfony Turbo pour cette redirection
+        ]);
+        
     }
     
 
