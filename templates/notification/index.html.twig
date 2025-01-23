@@ -1,20 +1,170 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello NotificationController!{% endblock %}
-
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+.notification-list,
+.match-request {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.notification-item,
+.request-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-item:last-child,
+.request-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item img,
+.request-item img {
+    width: 40px;
+    height: 40px;
+}
+
+.notification-item strong,
+.request-item strong {
+    display: block;
+    font-size: 16px;
+}
+
+.notification-item span,
+.request-item span {
+    font-size: 14px;
+    color: #555;
+}
+
+.text-muted {
+    font-size: 13px;
+}
+
+.btn-primary {
+    background-color: #ff5c8d;
+    border: none;
+    padding: 5px 15px;
+    font-size: 14px;
+    border-radius: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #e84e7c;
+}
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+.notification-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.request-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+
+
 </style>
+ <div class="container mt-4">
+        <div class="notification-list">
+            <h5 class="mb-3">Notifications</h5>
+            <div class="notification-item d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Jenny sing">
+                    <div>
+                        <strong>Jenny sing</strong> <span>Liked your photos</span>
+                    </div>
+                </div>
+                <span class="text-muted">Today</span>
+            </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            <div class="notification-item d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Katty pary">
+                    <div>
+                        <strong>Katty pary</strong> <span>Send you Request</span>
+                    </div>
+                </div>
+                <span class="text-muted">4 Hour ago</span>
+            </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Nikoloz/Desktop/Co-NM/$++/Froove/projet1/src/Controller/NotificationController.php</code></li>
-        <li>Your template at <code>C:/Users/Nikoloz/Desktop/Co-NM/$++/Froove/projet1/templates/notification/index.html.twig</code></li>
-    </ul>
-</div>
+            <div class="notification-item d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="camilia calbo">
+                    <div>
+                        <strong>camilia calbo</strong> <span>Like your post</span>
+                    </div>
+                </div>
+                <span class="text-muted">4 Hour ago</span>
+            </div>
+
+            <div class="notification-item d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Anna khan">
+                    <div>
+                        <strong>Anna khan</strong> <span>Like your photo</span>
+                    </div>
+                </div>
+                <span class="text-muted">6 Hour ago</span>
+            </div>
+        </div>
+
+        <div class="match-request mt-4">
+            <h5 class="mb-3">Match Request</h5>
+            <div class="request-item d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Katty pary">
+                    <div>
+                        <strong>Katty pary</strong> <span>Send you Request</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary">Accept</button>
+            </div>
+
+            <div class="request-item d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Rihanna.j">
+                    <div>
+                        <strong>Rihanna.j</strong> <span>Send you Request</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary">Accept</button>
+            </div>
+
+            <div class="request-item d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Jeniffer.L">
+                    <div>
+                        <strong>Jeniffer.L</strong> <span>Send you Request</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary">Accept</button>
+            </div>
+
+            <div class="request-item d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Taylor.S">
+                    <div>
+                        <strong>Taylor.S</strong> <span>Send you Request</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary">Accept</button>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

@@ -31,9 +31,18 @@ class AdsController extends AbstractController
         //     'user' => $this->getUser(),
         //     'isRead' => false
         // ]);
+        $persons = [
+            ['name' => 'Katty pary', 'role' => 'Student', 'image' => '/path/to/image1.jpg'],
+            ['name' => 'Shakira', 'role' => 'Student', 'image' => '/path/to/image2.jpg'],
+            ['name' => 'Katty pary', 'role' => 'Student', 'image' => '/path/to/image3.jpg'],
+            ['name' => 'Shakira', 'role' => 'Student', 'image' => '/path/to/image4.jpg'],
+            ['name' => 'Katty pary', 'role' => 'Student', 'image' => '/path/to/image5.jpg'],
+            ['name' => 'Shakira', 'role' => 'Student', 'image' => '/path/to/image6.jpg'],
+        ];
         
         return $this->render('ads/index.html.twig', [
             'ads' => $ads,
+            'persons' =>$persons,
             'selectedCategory' => $category,
             'selectedLocation' => $location,
             'selectedCurrency' => $currency,
@@ -81,7 +90,7 @@ class AdsController extends AbstractController
         ]);
     }
 
-    public function nav( NotificationRepository $notificationRepository): Response
+    public function nav( NotificationRepository $notificationRepository, $current_route = null): Response
     {
       
 
@@ -96,6 +105,7 @@ class AdsController extends AbstractController
             'unreadCount' => count($unreadNotifications),
             'unreadNotifications' => $unreadNotifications,
             'userPoints' => $userPoints,
+            'current_route' => $current_route,
         ]);
     }
     #[Route('/ads/create', name: 'ads_create', methods: ['POST'])]

@@ -1,266 +1,112 @@
-<!-- Inclure Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+{% if app.user %}
+<!-- NAVIGATION PERSONNALISÉE -->
 <style>
-    :root {
-        --primary: #2D3436;
-        --secondary: #636E72;
-        --accent: #6C63FF;
-        --light: #DFE6E9;
-        --bg: #F5F6FA;
-    }
 
-nav{
+.nav-bar-custom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    height:80px;
+    justify-content: space-around;
+    align-items: center;
+     background-image: 
+                       url("{{ asset('img/icones/nav.svg') }}");
+   background-size: 100% auto; 
+
+    background-position: center; 
+    background-repeat: no-repeat; 
     z-index:100;
-    
+}
+
+.nav-icon {
+    font-size: 1.5rem;
+    color: #333;
+}
+.btn-pink {
+    position:absolute;
+    bottom:30px;
+    max-width:80px;
+    max-height:80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.btn-pink i {
+    font-size: 1.5rem;
 }
 a{
     text-decoration:none;
 }
 
-    .navbar-header {
-        display: flex;
-        justify-content: space-eventy;
-        align-items: center;
-        padding: 1rem;
-        
-    }
-
-    .logo {
-        color: var(--light);
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .user-points {
-        color: var(--light);
-        text-align: center;
-        font-weight:bold;
-    }
-
-    .user-points i {
-        font-size: 1.3rem;
-        color: #FFD700;
-    }
-
-
-    .nav-icons {
- position: fixed;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    gap: 2rem;
-    justify-content: space-around;
-    padding: 0.5rem 0;
-    background-color: black;
-    z-index: 10; /* Assurez-vous que ce n'est pas trop élevé */
-    height: 60px; /* Ajustez cette hauteur pour mieux gérer les proportions */
-    }
+/* Espace pour éviter le chevauchement */
 body {
-    margin-bottom: 100px; /* Correspond à la hauteur de .nav-icons */
+    margin-bottom: 80px; /* Hauteur pour éviter la superposition de la barre */
 }
-    .nav-link {
-        color: white !important;
-        font-size: 1.7rem;
-        font-weight:bold;
-        transition: color 0.3s ease-in-out;
-        position: relative;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-        color: var(--accent) !important;
-    }
-
-    .notification-badge {
-        position: absolute;
-        top: 0;
-        right: -0.3rem;
-        background-color: #E74C3C;
-        color: #fff;
-        font-size: 0.7rem;
-        padding: 0.2rem 0.4rem;
-        border-radius: 50%;
-    }
-    .dropdown-toggle::after{
-        display:none;
-    }
-    /* Styles pour les notifications */
-.notification-content {
-    word-wrap: break-word; /* Permet de couper les longs textes */
-}
-
-.notification-message {
-    font-size: 0.9rem; /* Réduit légèrement la taille pour les petits écrans */
-}
-.dropup .dropdown-toggle::after {
-    display:none;
-}
-
-/* Flexibilité pour les boutons */
-.dropdown-item .btn {
-    font-size: 0.8rem; /* Réduit la taille des boutons */
-    padding: 0.3rem 0.6rem; /* Ajuste l'espacement interne */
-}
-
-/* Gestion des petits écrans */
-@media (max-width: 576px) {
-    .dropdown-item {
-   
-        max-width:350px;
-    }
-
-.notification-content {
-width:250px;
-    white-space: normal; /* Force le retour à la ligne */
-}
-
-
-    .btn {
-        width: 100%; /* Les boutons prennent toute la largeur */
-    }
-}
-.navbar-header.hidden {
-    transform: translateY(-100%);
-    transition: transform 0.3s ease-in-out;
-}
-
-    .navbar-header {
-        background-color: black;
-        position:fixed;
-    }
-
 
 </style>
-{% if app.user %}
-    <!-- NAVBAR FIXÉE EN HAUT -->
-    <nav class="navbar">
-        <!-- En-tête de la navbar -->
-        <div class="navbar-header container-fluid pt-5">
-            <div class="logo">
-                FROOVE
-            </div>
-            
-            <div class="user-points me-2">
-            <a href="{{ path('app_chat') }}">
-               <img src={{asset('img/icones/Primary.svg')  }} class="me-4" alt="Envoyer" />
-               </a>
-                <span title="Vos points">
-                    {{ userPoints }}  <i class="bi bi-coin"></i> 
-                </span>
-            </div>
-        </div>
-
-        <!-- Icônes de navigation en bas -->
-        <div class="nav-icons">
-            <!-- Accueil -->
-            <a class="nav-link active" href="{{ path('app_ads') }}" title="Accueil">
-                <i class="bi bi-house-door-fill"></i>
-             
-
-            </a>
-
-            <!-- Ajouter (ouvre un modal ou envoie vers une page, au choix) 
-                 Ici on ouvre un modal d’exemple pour créer une annonce. 
-            -->
-            <button 
-                type="button" 
-                class="nav-link" 
-                data-bs-toggle="modal" 
-                data-bs-target="#createAdModal" 
-                title="Ajouter un événement"
-            >
-                <i class="bi bi-plus-square-fill"></i>
-            </button>
-
-            <!-- Boutique : ouvre un modal -->
-            <button 
-                type="button" 
-                class="nav-link" 
-                data-bs-toggle="modal" 
-                data-bs-target="#shopModal" 
-                title="Boutique"
-            >
-                <i class="bi bi-bag-fill"></i>
-            </button>
-
-            <!-- Notifications : dropdown -->
-            <div class="nav-item dropup">
-                <a 
-                    class="nav-link dropdown-toggle" 
-                    href="#" 
-                    title="Notifications" 
-                    id="notificationsDropdown" 
-                    data-bs-toggle="dropdown" 
-                    aria-expanded="false"
-                >
-                    <i class="bi bi-bell-fill"></i>
-                    {% if unreadCount > 0 %}
-                        <span class="notification-badge">{{ unreadCount }}</span>
-                    {% endif %}
-                </a>
-                <ul 
-                    class="dropdown-menu dropdown-menu-end" 
-                    aria-labelledby="notificationsDropdown"
-                >
-                    {% if unreadNotifications|length > 0 %}
-                        {% for notification in unreadNotifications %}
-                            <li>
-                                <div class="dropdown-item d-flex flex-column">
-                                    <!-- Message et date -->
-                                    <div class="notification-content">
-                                        <span class="notification-message">
-                                            {{ notification.message }}
-                                        </span>
-                                        <small class="text-muted d-block">
-                                            {{ notification.createdAt|date('d/m/Y H:i') }}
-                                        </small>
-                                    </div>
-
-                                    <!-- Boutons selon la notification -->
-                                    {% if notification.message matches '/a accepté votre demande/' %}
-                                        <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
-                                            <a 
-                                                class="btn btn-sm btn-primary flex-grow-1 flex-md-grow-0" 
-                                                href="{{ path('app_notification_read_and_chat', { id: notification.id }) }}"
-                                            >
-                                                Aller au chat
-                                            </a>
-                                        </div>
-                                    {% else %}
-                                        <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
-                                            <a 
-                                                class="btn btn-sm btn-success flex-grow-1 flex-md-grow-0" 
-                                                href="{{ path('app_notification_accept', { id: notification.id }) }}"
-                                            >
-                                                Accepter
-                                            </a>
-                                            <a 
-                                                class="btn btn-sm btn-danger flex-grow-1 flex-md-grow-0" 
-                                                href="{{ path('app_notification_reject', { id: notification.id }) }}"
-                                            >
-                                                Refuser
-                                            </a>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </li>
-                        {% endfor %}
-                    {% else %}
-                        <li>
-                            <span class="dropdown-item-text">Aucune notification</span>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-
-            <!-- Profil -->
-            <a class="nav-link" href="{{ path('app_profil') }}" title="Profil">
-                <i class="bi bi-person-circle"></i>
-            </a>
-        </div>
-    </nav>
+    <div class="d-flex justify-content-between align-items-center p-4 mb-4">
+    {% if current_route == 'app_ads' %}
+    
+  <a href="{{path('app_logout')}}" class="back-arrow"><img src="{{ asset('/img/icones/arrow.svg') }}"/></a>
+    {% else %}
+        
+         <a href="{{path('app_ads')}}" class="back-arrow"><img src="{{ asset('/img/icones/arrow.svg') }}"/></a>
+            {% endif %}
+        <h5 class="mb-0">Discover</h5>
+{% if current_route == 'app_profil' %}
+    Edit
+    
+{% else %}
+    <div  class="p-0">
+       <a href="{{ path('app_notif') }}"> <img src="{{ asset('/img/icones/bel.svg') }}" class="me-4" /></a>
+        <a><img src="{{ asset('/img/icones/filter.svg') }}" /></a>
+    </div>
 {% endif %}
+
+
+
+
+
+        
+        
+    </div>
+<div class="nav-bar-custom">
+    <!-- Accueil -->
+    <a href="{{ path('app_ads') }}" class="nav-icon nav-icon-hollow" title="Accueil">
+        <img src="{{ asset('/img/icones/home.svg') }}" alt="Accueil">
+    </a>
+
+    <!-- Favoris -->
+    <a href="#" class="nav-icon me-5" title="Favoris">
+        <img src="{{ asset('/img/icones/heart.svg') }}" alt="Favoris">
+    </a>
+
+    <!-- Ajouter un événement (bouton central) -->
+<button 
+  type="button" 
+  class="btn btn-pink btn-pink-pressed" 
+  data-bs-toggle="modal" 
+  data-bs-target="#createAdModal" 
+  title="Ajouter un événement">
+ <img src="{{ asset('/img/icones/plus.svg') }}" alt="Favoris">
+</button>
+
+    <!-- Chat -->
+    <a href="{{ path('app_chat') }}" class="nav-icon ms-5" title="Messages">
+        <img src="{{ asset('/img/icones/chat.svg') }}" alt="Messages">
+    </a>
+
+    <!-- Profil -->
+    <a href="{{ path('app_profil') }}" class="nav-icon" title="Profil">
+        <img src="{{ asset('/img/icones/user.svg') }}" alt="Profil">
+    </a>
+</div>
+
 
 <!-- MODAL : CRÉER UNE ANNONCE -->
 <div 
@@ -268,8 +114,7 @@ width:250px;
     id="createAdModal" 
     tabindex="-1" 
     aria-labelledby="createAdModalLabel" 
-    aria-hidden="true"
->
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -278,27 +123,17 @@ width:250px;
                     type="button" 
                     class="btn-close" 
                     data-bs-dismiss="modal" 
-                    aria-label="Fermer"
-                ></button>
+                    aria-label="Fermer"></button>
             </div>
             <form method="POST" action="{{ path('app_ads_create') }}" data-turbo="false">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="title" class="form-label">Titre</label>
-                        <input 
-                            type="text" 
-                            name="title" 
-                            class="form-control" 
-                            required
-                        >
+                        <input type="text" name="title" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="category" class="form-label">Catégorie</label>
-                        <select 
-                            name="category" 
-                            class="form-select" 
-                            required
-                        >
+                        <select name="category" class="form-select" required>
                             <option value="Cinéma">Cinéma</option>
                             <option value="Dîner">Dîner</option>
                             <option value="Musée">Musée</option>
@@ -307,101 +142,33 @@ width:250px;
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Lieu</label>
-                        <input 
-                            type="text" 
-                            name="location" 
-                            class="form-control" 
-                            required
-                        >
+                        <input type="text" name="location" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="date" class="form-label">Date</label>
-                        <input 
-                            type="datetime-local" 
-                            name="date" 
-                            class="form-control" 
-                            required
-                        >
+                        <input type="datetime-local" name="date" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">Prix</label>
-                        <input 
-                            type="number" 
-                            name="price" 
-                            class="form-control" 
-                            min="0" 
-                            required
-                        >
+                        <input type="number" name="price" class="form-control" min="0" required>
                     </div>
                     <div class="mb-3">
                         <label for="currency" class="form-label">Devise</label>
-                        <select 
-                            name="currency" 
-                            class="form-select" 
-                            required
-                        >
+                        <select name="currency" class="form-select" required>
                             <option value="EUR">Euro (€)</option>
                             <option value="USD">Dollar ($)</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea 
-                            name="description" 
-                            class="form-control" 
-                            rows="3"
-                        ></textarea>
+                        <textarea name="description" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button 
-                        type="submit" 
-                        class="btn btn-accent"
-                    >
-                        Créer
-                    </button>
+                    <button type="submit" class="btn btn-accent">Créer</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<!-- MODAL : BOUTIQUE (OU AUTRE) LANCÉ PAR L’ICÔNE BAG-FILL -->
-<div 
-    class="modal fade" 
-    id="shopModal" 
-    tabindex="-1" 
-    aria-labelledby="shopModalLabel" 
-    aria-hidden="true"
->
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="shopModalLabel">Boutique</h5>
-                <button 
-                    type="button" 
-                    class="btn-close" 
-                    data-bs-dismiss="modal" 
-                    aria-label="Fermer"
-                ></button>
-            </div>
-            <div class="modal-body">
-                <!-- Contenu de la boutique -->
-                <p>Bienvenue dans la boutique !</p>
-                <p>La boutique est en cours de developpement</p>
-            </div>
-            <div class="modal-footer">
-                <button 
-                    type="button" 
-                    class="btn btn-secondary" 
-                    data-bs-dismiss="modal"
-                >
-                    Fermer
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="{{ asset('js/navbar.js') }}"> </script>
-
- 
+{% endif %}

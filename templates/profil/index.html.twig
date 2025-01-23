@@ -4,246 +4,86 @@
 
 {% block stylesheets %}
 <style>
-:root {
-    --primary: #2D3436;
-    --secondary: #636E72;
-    --accent: #00B894;
-    --light: #DFE6E9;
-    --bg: #F5F6FA;
-}
-
 body {
-    background-color: var(--bg);
-    color: var(--primary);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin:0;
-    padding:0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
 }
 
-/* Hero Section */
-.profile-hero {
-    background: linear-gradient(to bottom, #ffffff, var(--bg));
-    padding: 2rem 1rem;
-    text-align: center;
-}
-.profile-hero .avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.profile-hero h1 {
-    margin-top: 1rem;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--primary);
-}
-.profile-hero p {
-    color: var(--secondary);
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-}
-.badge-custom {
-    font-size: 0.75rem;
-    font-weight: 500;
-    background-color: var(--accent);
-    color: #fff;
-    border-radius: 20px;
-    padding: 0.3rem 0.75rem;
-    margin: 0 0.25rem;
+h2 {
+    color: #333;
 }
 
-.btn-accent {
-    background-color: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s;
-    font-size: 0.9rem;
-}
-.btn-accent:hover {
-    background-color: #00a386;
+.gallery img {
+    transition: transform 0.3s ease;
 }
 
-/* Cards */
-.card {
-    border: none;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    margin-bottom: 1.5rem;
-}
-.card-header {
-    background: transparent;
-    border-bottom: none;
-    font-weight: 600;
-    color: var(--primary);
-    font-size: 1.05rem;
-}
-.card-body {
-    font-size: 0.95rem;
-    color: var(--secondary);
-}
-
-/* Photos grid */
-.photos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px,1fr));
-    gap: 0.75rem;
-}
-.photos-grid img {
-    width: 100%;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    position: relative;
-}
-@media (min-width: 576px) {
-    .photos-grid img {
-        height: 150px;
-    }
-}
-.photo-add {
-    border: 2px dashed var(--light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--secondary);
-    font-size: 0.85rem;
-    border-radius: 8px;
+.gallery img:hover {
+    transform: scale(1.05);
     cursor: pointer;
 }
 
-/* List Items */
-.list-group-item {
-    border: none;
-    padding-left: 0;
-    padding-right: 0;
-    font-size: 0.95rem;
-}
-.list-group-item strong {
-    color: var(--primary);
+.nav-tabs .nav-link {
+    color: #666;
 }
 
-/* Responsive Columns */
-@media (min-width: 768px) {
-    .profile-columns {
-        display: flex;
-        gap: 1rem;
-    }
-    .profile-columns > div {
-        flex: 1;
-    }
+.nav-tabs .nav-link.active {
+    color: #ff3366;
+    font-weight: bold;
+    border-bottom: 3px solid #ff3366;
+    
 }
+
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="profile-hero mt-5">
-    <img src="{{ asset('img/test/avatar.jpg')}}" alt="{{ user.username }}" class="avatar">
-    <h1>{{ user.username }}</h1>
-    {% if user.verified %}
-        <span class="badge-custom">Vérifié</span>
-    {% endif %}
-    {% if user.premium %}
-        <span class="badge-custom" style="background-color:#ffd700;color:#000;">Premium</span>
-    {% endif %}
-    <p>{{ user.about }}</p>
-    <button class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#editProfileModal">Modifier mon profil</button>
-</div>
-
-<div class="container">
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success mt-2">{{ message }}</div>
-    {% endfor %}
-
-    <div class="profile-columns">
-        <div>
-            <!-- Photos Section -->
-            <div class="card">
-                <div class="card-header">
-                    Mes photos
-                </div>
-                <div class="card-body">
-                    <div class="photos-grid">
-                        {% for photo in user.photos %}
-                            <div class="position-relative">
-                                <img src="{{ photo }}" alt="User Photo">
-                            </div>
-                        {% endfor %}
-                        <div class="photo-add">+ Ajouter</div>
-                    </div>
-                </div>
+    <div class="container mt-5">
+        <div class="text-center">
+            <img src="https://picsum.photos/1000" alt="Profile Picture" class="rounded-circle mb-3" style="width: 100px; height: 100px;">
+            <h2 class="fw-bold">Jayson Moama, 34</h2>
+            <p class="text-muted">San Francisco, USA</p>
+        </div>
+        <div class="d-flex justify-content-around my-4">
+            <div>
+                <h4 class="text-primary fw-bold">120</h4>
+                <p class="text-muted">Followers</p>
             </div>
-
-            <!-- Informations personnelles -->
-            <div class="card">
-                <div class="card-header">
-                    Informations
-                </div>
-                <div class="card-body">
-                    {{ form_start(formCountryDevise) }}
-                    <ul class="list-group list-group-flush mb-3">
-                        <li class="list-group-item">
-                            Pays : {{ form_widget(formCountryDevise.country, {'attr': {'class': 'form-select d-inline-block w-auto ms-2'}}) }}
-                        </li>
-                        <li class="list-group-item">
-                            Devise : {{ form_widget(formCountryDevise.devise, {'attr': {'class': 'form-select d-inline-block w-auto ms-2'}}) }}
-                        </li>
-                    </ul>
-                    <button type="submit" class="btn btn-accent">Enregistrer</button>
-                    {{ form_end(formCountryDevise) }}
-                </div>
+            <div>
+                <h4 class="text-primary fw-bold">300</h4>
+                <p class="text-muted">Following</p>
+            </div>
+            <div>
+                <h4 class="text-primary fw-bold">50</h4>
+                <p class="text-muted">Favorites</p>
             </div>
         </div>
-
-        <!-- Paramètres & Sécurité -->
-        <div>
-            <div class="card">
-                <div class="card-header">
-                    Paramètres & Sécurité
-                </div>
-                <div class="card-body">
-                    <p>Gérez ici vos informations sensibles, changez votre mot de passe ou supprimez votre compte.</p>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-outline-danger">Supprimer mon compte</button>
-                        <button class="btn btn-outline-dark">Changer mon mot de passe</button>
-                    </div>
-                </div>
+        <ul class="nav nav-tabs justify-content-center mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Gallery</a>
+            </li>
+        </ul>
+        <div class="row gallery">
+            <div class="col-4">
+                <img src="https://picsum.photos/1000" alt="Gallery Image" class="img-fluid rounded">
+            </div>
+            <div class="col-4">
+                <img src="https://picsum.photos/1000" alt="Gallery Image" class="img-fluid rounded">
+            </div>
+            <div class="col-4">
+                <img src="https://picsum.photos/1000" alt="Gallery Image" class="img-fluid rounded">
+            </div>
+            <div class="col-4">
+                <img src="https://picsum.photos/1000" alt="Gallery Image" class="img-fluid rounded">
+            </div>
+            <div class="col-4">
+                <img src="https://picsum.photos/1000" alt="Gallery Image" class="img-fluid rounded">
+            </div>
+            <div class="col-4">
+                <img src="https://picsum.photos/1000" alt="Gallery Image" class="img-fluid rounded">
             </div>
         </div>
     </div>
-</div>
-
-<!-- Modal d’édition du profil (nom, email) -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ user.username }} - Modifier mon profil</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-      </div>
-      <div class="modal-body">
-        {{ form_start(formProfileEdit) }}
-            <div class="mb-3">
-                {{ form_label(formProfileEdit.fullName) }}
-                {{ form_widget(formProfileEdit.fullName, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(formProfileEdit.fullName) }}
-            </div>
-            <div class="mb-3">
-                {{ form_label(formProfileEdit.email) }}
-                {{ form_widget(formProfileEdit.email, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(formProfileEdit.email) }}
-            </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-accent">Enregistrer</button>
-        {{ form_end(formProfileEdit, {'render_rest': true}) }}
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock %}

@@ -1,233 +1,170 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
 <style>
-/* Style du logo amélioré */
-.logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 10px;
-    position: relative;
-    margin-bottom: 1.5rem;
-}
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
 
-.logo .text {
-    font-family: 'Poppins', sans-serif;
-    font-size: 32px; /* Taille augmentée pour plus d'impact */
-    font-weight: 700;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, #6C63FF, #8B5CF6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-    text-transform: uppercase; /* Pour plus d'impact */
-}
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
 
-.logo .dot {
-    width: 10px;
-    height: 10px;
-    background: #8B5CF6;
-    border-radius: 50%;
-    display: inline-block;
-    animation: pulse 2s infinite;
-    margin-left: 2px;
-}
+            border-radius: 10px;
+            position: relative;
+        }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
-    }
-    50% {
-        transform: scale(1.2);
-        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
-    }
-}
+        .back-arrow {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 20px;
+            color: #666;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
-/* Effet hover amélioré */
-.logo:hover .text {
-    background: linear-gradient(135deg, #8B5CF6, #6C63FF);
-    -webkit-background-clip: text;
-    background-clip: text;
-    transition: all 0.3s ease;
-}
+        .back-arrow:hover {
+            color: #000;
+        }
 
-.logo:hover .dot {
-    background: #6C63FF;
-    transform: scale(1.2);
-    transition: all 0.3s ease;
-}
+        .login-container h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
 
-/* Ajustements pour la page de connexion */
-.auth-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
+        .login-container p {
+            color: #666;
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-.auth-header .logo {
-    justify-content: center;
-    margin-bottom: 1.5rem;
-}
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            box-sizing: border-box;
+        }
 
-.auth-title {
-    color: var(--text-dark);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-}
+        .login-container .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
 
-.auth-subtitle {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-}
+        .login-container .btn-primary {
+            background-color: #ff3d81;
+        }
+
+        .login-container .btn-secondary {
+            background-color: #1877f2;
+        }
+
+        .login-container .btn-light {
+            background-color: #f9f9f9;
+            color: #666;
+            border: 1px solid #ccc;
+            margin-bottom: 0;
+        }
+
+        .login-container a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            text-align: left;
+            display: block;
+        }
+
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            position: relative;
+            margin: 15px 0;
+            text-align: center;
+            color: #aaa;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 1px;
+            background: #ddd;
+            top: 50%;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .terms {
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+        }
 </style>
-<link href="{{ asset('styles/login.css') }}" rel="stylesheet">
 
-<div class="auth-container">
-    <div class="auth-box">
-        <div class="auth-header">
-            <div class="logo">  <span class="text">FROOVE</span>
-    <span class="dot"></span></div>
-            <h2 class="auth-title" id="formTitle">Ravi de vous revoir !</h1>
+
+     <div class="login-container">
+ <a href="{{path('app_home')}}" class="back-arrow"><img src="{{ asset('/img/icones/arrow.svg') }}"/></a>
+        <h1 class="fs-6 fw-bold text-center">Login</h1>
            
-        </div>
 
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">{{ message }}</div>
-        {% endfor %}
-        {% for message in app.flashes('error') %}
-            <div class="alert alert-danger">{{ message }}</div>
-        {% endfor %}
+        <h2 class="fw-bold mt-5">Welcome Back</h2>
+        <p>Sign in to continue</p>
 
-        {% if error %}
-            <div class="alert alert-danger">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
-            </div>
-        {% endif %}
-
-        {% if app.user %}
-            <div class="alert alert-info">
-                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, 
-                <a href="{{ path('app_logout') }}" class="switch-btn">Déconnexion</a>
-            </div>
-        {% endif %}
-
-        <div class="form-wrapper" id="formWrapper">
-            {# Formulaire de connexion #}
-            <div class="auth-form login-form">
-                <form method="post">
-                    <div class="form-group">
-                        <label class="form-label" for="inputEmail">Email</label>
-                        <input 
-                            type="email" 
-                            value="{{ last_username }}" 
-                            name="email" 
-                            id="inputEmail" 
-                            class="form-control" 
-                            autocomplete="email" 
-                            required 
-                            autofocus
-                            placeholder="email@exemple.com"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="inputPassword">Mot de passe</label>
-                        <input 
-                            type="password" 
-                            name="password" 
-                            id="inputPassword" 
-                            class="form-control" 
-                            autocomplete="current-password" 
-                            required
-                            placeholder="••••••••"
-                        >
-                    </div>
-
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                    <button type="submit" class="btn btn-primary btn-lg w-100">Se connecter</button>
-                </form>
-            </div>
-
-            {# Formulaire d'inscription #}
-            <div class="auth-form register-form">
-                <form method="post" action="{{ path('app_register') }}">
-                    <div class="form-group">
-                        <label class="form-label" for="registerName">Nom</label>
-                        <input 
-                            type="text" 
-                            name="name" 
-                            id="registerName" 
-                            class="form-control" 
-                            required
-                            placeholder="Nom et Prénom"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="registerEmail">Email</label>
-                        <input 
-                            type="email" 
-                            name="email" 
-                            id="registerEmail" 
-                            class="form-control" 
-                            required
-                            placeholder="email@exemple.com"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="registerPassword">Mot de passe</label>
-                        <input 
-                            type="password" 
-                            name="password" 
-                            id="registerPassword" 
-                            class="form-control" 
-                            required
-                            placeholder="••••••••"
-                        >
-                    </div>
-
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('register') }}">
-
-                    <button type="submit" class="auth-btn">S'inscrire</button>
-                </form>
-            </div>
-        </div>
-
-        <p class="switch-text">
-            <span id="switchText">Pas encore de compte ?</span> 
-            <a href="#" id="switchBtn" class="switch-btn">S'inscrire</a>
-        </p>
-
-        {# <div class="divider">
-            <span>ou continuer avec</span>
-        </div>
-
-        <div class="social-login">
-            <a class="social-btn">
-                <i class="bi bi-google"></i>
-            </a>
-            <a class="social-btn">
-                <i class="bi bi-apple"></i>
-            </a>
-            <a class="social-btn">
-                <i class="bi bi-facebook"></i>
-            </a>
-        </div> #}
-    </div>
+        <form method="post" class="mt-5">
+            <input type="text" name="email" placeholder="  User Name" required>
+            <div style="position: relative;">
+    <input id="password" type="password" name="password" placeholder="   Password" style="width: 100%; padding-right: 40px; border-radius: 25px; padding: 12px; border: 1px solid #ccc;">
+    <i id="togglePassword" class="fas fa-eye" style="position: absolute; right: 15px; top: 40%; transform: translateY(-50%); cursor: pointer;"></i>
 </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button type="submit" class="btn btn-primary mt-4">Log in</button>
+        </form>
 
+        <div class="divider">or</div>
 
+        <button class="btn btn-secondary">Sign up with Facebook</button>
+        <button class="btn btn-light mt-4">Sign up with Email</button>
 
-<script src="{{ asset('js/login.js') }}"> </script>
+        <a href="#" class="terms text-center mt-5">Terms of use & Privacy Policy</a>
+    </div>
+    <script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordField = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+        // Toggle the type attribute
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+
+        // Toggle the icon
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
 {% endblock %}

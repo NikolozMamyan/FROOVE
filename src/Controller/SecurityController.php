@@ -20,6 +20,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
+
+    #[Route('/welcome', name: 'app_home')]
+    public function index(): Response
+    {
+        return $this->render('security/welcome.html.twig');
+    }
+
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -38,28 +45,36 @@ class SecurityController extends AbstractController
     public function signUp(
         Request $request, 
         UserPasswordHasherInterface $passwordHasher, 
-        EntityManagerInterface $entityManager, BrevoEmailService $mailService 
+        EntityManagerInterface $entityManager, 
+        BrevoEmailService $mailService 
     ): Response {
+        // Vérifier si l'utilisateur est déjà connecté
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
     
+        // Si c'est une requête GET, afficher le formulaire
+        if ($request->isMethod('GET')) {
+            return $this->render('security/signup.html.twig');
+        }
+    
+        // Traitement du formulaire POST
         if ($request->isMethod('POST')) {
             $email = $request->request->get('email');
             $password = $request->request->get('password');
             $name = $request->request->get('name');
     
             // Validation simple
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL) || empty($password) || empty($name) ) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL) || empty($password) || empty($name)) {
                 $this->addFlash('error', 'Veuillez remplir tous les champs correctement.');
-                return $this->redirectToRoute('app_login');
+                return $this->render('security/signup.html.twig');
             }
     
             // Vérification si l'utilisateur existe déjà
             $userRepo = $entityManager->getRepository(User::class);
             if ($userRepo->findOneBy(['email' => $email])) {
                 $this->addFlash('error', 'Un compte avec cet email existe déjà.');
-                return $this->redirectToRoute('app_login');
+                return $this->render('security/signup.html.twig');
             }
     
             // Création de l'utilisateur
@@ -69,24 +84,22 @@ class SecurityController extends AbstractController
             $user->setEmail($email);
             $user->setFullName($name);
             $user->setRoles(['ROLE_USER']);
-    
-            $hashedPassword = $passwordHasher->hashPassword($user, $password);
-            $user->setPassword($hashedPassword);
+            $user->setPassword($passwordHasher->hashPassword($user, $password));
             $user->setVerified(false);
+    
             // Sauvegarde dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
             
+            // Envoi de l'email
             $mailService->mailSender($email, $name, $activationToken);
-
     
-            // Redirection après l'inscription
             $this->addFlash('success', 'Votre compte a été créé avec succès. Veuillez vérifier votre e-mail pour activer votre compte 😊');
-
             return $this->redirectToRoute('app_login');
         }
     
-        return $this->redirectToRoute('app_login');
+        // Par défaut, afficher le formulaire
+        return $this->render('security/signup.html.twig');
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

@@ -76,7 +76,7 @@ public function notif(NotificationRepository $notifRepo)
 
     $notifications = $notifRepo->findBy(['user' => $user], ['createdAt' => 'DESC']);
 
-    return $this->render('profil/notifs.html.twig', [
+    return $this->render('notification/index.html.twig', [
         'notifications' => $notifications,
     ]);
 }
