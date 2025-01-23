@@ -2,12 +2,9 @@
 
 {% block body %}
 <style>
-
-
-
-
 .card {
     border: none;
+    cursor: pointer;
 }
 
 .card-img-top {
@@ -15,25 +12,79 @@
     object-fit: cover;
 }
 
+    .modal-body-background {
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 20px;
+        min-height: 500px;
+        display: flex;
+        align-items: flex-end; /* Aligne le contenu en bas */
+    }
 
+    .modal-body-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); /* Dégradé du bas vers le haut */
+        z-index: 1;
+    }
+
+    .modal-body-content {
+        position: relative;
+        z-index: 2;
+        text-align: left; /* Alignement à gauche */
+        padding: 0 20px 20px 20px; /* Espacement */
+    }
+
+    .modal-body-background h2 {
+        margin-bottom: 10px;
+        font-size: 1.8rem;
+    }
+
+    .modal-body-content p {
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 0;
+    }
 </style>
-<div class="container my-4 mt-5">
 
-    
+<div class="container my-4 mt-5">
     <div class="row">
-        {% for person in persons %}
+    {% for ad in ads %}
         <div class="col-6 mb-4">
-            <div class="card">
-                <img src="https://picsum.photos/2000" class="card-img-top rounded" alt="{{ person.name }}">
+            <div class="card" data-bs-toggle="modal" data-bs-target="#adModal{{ ad.id }}">
+                <img src="https://picsum.photos/2000" class="card-img-top rounded" alt="{{ ad.user.fullName }}">
                 <div class="card-body text-center p-2">
-                    <h6 class="card-title mb-0">{{ person.name }}</h6>
-                    <p class="card-text text-muted mb-0">{{ person.role }}</p>
+                    <h6 class="card-title mb-0">{{ ad.user.fullName }}</h6>
+                    <p class="card-text text-muted mb-0">{{ ad.category }}</p>
                 </div>
             </div>
         </div>
-        {% endfor %}
+
+        <!-- Modal -->
+        <div class="modal fade" id="adModal{{ ad.id }}" tabindex="-1" aria-labelledby="adModalLabel{{ ad.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-0">
+                        <div class="modal-body-background" style="background-image: url('https://picsum.photos/2000');">
+                            <div class="modal-body-content">
+                                <h2 class="text-light">{{ ad.user.fullName }}</h2>
+                                <p>{{ ad.location }}</p>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="modal-footer d-flex justify-content-center align-items-center">
+    <a href="{{path('app_ads')}}" class="mx-2"><img src="{{ asset('/img/icones/nop.svg') }}"/></a>
+    <a href="#" class="mx-2"><img src="{{ asset('/img/icones/like.svg') }}"/></a>
+</div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     </div>
-    
-   
 </div>
 {% endblock %}
