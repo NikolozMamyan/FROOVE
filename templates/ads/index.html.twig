@@ -50,26 +50,44 @@
         color: rgba(255,255,255,0.8);
         margin-bottom: 0;
     }
+.like-animation {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.liked {
+    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
 </style>
 
 <div class="container my-4 mt-5">
     <div class="row">
     {% for ad in ads %}
         <div class="col-6 mb-4">
-            <div class="card" data-bs-toggle="modal" data-bs-target="#adModal{{ ad.id }}">
-                <img src="https://picsum.photos/2000" class="card-img-top rounded" alt="{{ ad.user.fullName }}">
-                <div class="card-body text-center p-2">
-                    <h6 class="card-title mb-0">{{ ad.user.fullName }}</h6>
-                    <p class="card-text text-muted mb-0">{{ ad.category }}</p>
-                </div>
-            </div>
+    <div class="card position-relative" data-bs-toggle="modal" data-bs-target="#adModal{{ ad.id }}">
+        <span class="position-absolute top-0 end-0 badge bg-primary m-2" style="z-index: 10;">
+            {{ ad.price }} P
+        </span>
+        <img src="https://picsum.photos/2000" class="card-img-top rounded" alt="{{ ad.user.fullName }}">
+        <div class="card-body text-center p-2">
+            <h6 class="card-title mb-0">{{ ad.user.fullName }}</h6>
+            <p class="card-text text-muted mb-0">{{ ad.category }}</p>
         </div>
-
+    </div>
+</div>
         <!-- Modal -->
         <div class="modal fade" id="adModal{{ ad.id }}" tabindex="-1" aria-labelledby="adModalLabel{{ ad.id }}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body p-0">
+                            <span class="position-absolute top-0 end-0 badge bg-primary m-2" style="z-index: 10;">
+            {{ ad.price }} P
+        </span>
                         <div class="modal-body-background" style="background-image: url('https://picsum.photos/2000');">
                             <div class="modal-body-content">
                                 <h2 class="text-light">{{ ad.user.fullName }}</h2>
@@ -77,9 +95,12 @@
                             </div>
                         </div>
                     </div>
-                        <div class="modal-footer d-flex justify-content-center align-items-center">
+                       <div class="modal-footer d-flex justify-content-center align-items-center">
+    <div id="modalMessageContainer-{{ ad.id }}" class="w-100 text-center"></div>
     <a href="{{path('app_ads')}}" class="mx-2"><img src="{{ asset('/img/icones/nop.svg') }}"/></a>
-    <a href="#" class="mx-2"><img src="{{ asset('/img/icones/like.svg') }}"/></a>
+    <a href="#" class="mx-2 participate-btn" data-ad-id="{{ ad.id }}">
+        <img src="{{ asset('/img/icones/like.svg') }}"/>
+    </a>
 </div>
                 </div>
             </div>
@@ -87,4 +108,6 @@
     {% endfor %}
     </div>
 </div>
+<script src="{{ asset('js/ads.js') }}" data-turbo="false"> </script>
+
 {% endblock %}

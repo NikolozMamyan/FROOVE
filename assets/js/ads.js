@@ -1,66 +1,49 @@
-document.addEventListener('turbo:load', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const participateButtons = document.querySelectorAll('.participate-btn');
 
     participateButtons.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const adId = btn.getAttribute('data-ad-id');
-            const modalMessageContainer = document.getElementById('modalMessageContainer-' + adId);
+        btn.addEventListener('click', async function (event) {
+            event.preventDefault(); 
 
-            fetch('/web/ads/' + adId + '/participate', {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({}),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(error => {
-                            throw new Error(error.error || 'Une erreur est survenue.');
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        displayMessageInModal('Participation réussie !', 'success', modalMessageContainer);
-                        setTimeout(() => window.location.reload(), 2000); // Recharge la page après 2 secondes
-                    } else {
-                        displayMessageInModal(data.error || 'Une erreur est survenue.', 'error', modalMessageContainer);
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    displayMessageInModal(err.message || 'Erreur de communication avec le serveur.', 'error', modalMessageContainer);
+            const adId = this.getAttribute('data-ad-id');
+            const likeImg = this.querySelector('img');
+            
+            try {
+                // Animation de pulsation
+                likeImg.classList.add('like-animation');
+                likeImg.classList.toggle('liked');
+                
+                // Appel asynchrone
+                const response = await fetch(`/web/ads/${adId}/participate`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json',
+                    },
                 });
+
+                // Vérifie la réponse
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Une erreur est survenue.');
+                }
+
+                const data = await response.json();
+
+                // Recharge la page si nécessaire
+                if (data.success) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                }
+            } catch (error) {
+                console.error('Erreur de participation:', error);
+            } finally {
+                // Restaure l'animation
+                setTimeout(() => {
+                    likeImg.classList.remove('like-animation');
+                }, 500);
+            }
         });
     });
-
-    function displayMessageInModal(message, type, container) {
-        container.innerHTML = ''; // Efface les anciens messages
-        const messageBox = document.createElement('div');
-        messageBox.className = `modal-message-box ${type}`;
-        messageBox.textContent = message;
-
-        // Styles inline pour les messages (facultatif, déjà couvert par le CSS ci-dessous)
-        messageBox.style.padding = '10px';
-        messageBox.style.marginBottom = '10px';
-        messageBox.style.borderRadius = '5px';
-
-        if (type === 'success') {
-            messageBox.style.backgroundColor = '#4caf50';
-            messageBox.style.color = '#fff';
-        } else if (type === 'error') {
-            messageBox.style.backgroundColor = '#f44336';
-            messageBox.style.color = '#fff';
-        }
-
-        container.appendChild(messageBox);
-
-        // Optionnel : Efface le message après 5 secondes
-        setTimeout(() => {
-            messageBox.remove();
-        }, 5000);
-    }
 });
