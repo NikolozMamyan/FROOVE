@@ -1,10 +1,7 @@
-import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
-import './styles/app.css';
+import { Application } from '@hotwired/stimulus';
+import ParticipateController from './controller/participate_controller.js';
+import PasswordVisibilityController from './controller/password_visibility_controller.js'; // Ajout
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+const application = Application.start();
+application.register('participate', ParticipateController);
+application.register('password-visibility', PasswordVisibilityController); // Enregistrement du contrôleur

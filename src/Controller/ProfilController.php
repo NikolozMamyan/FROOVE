@@ -70,16 +70,27 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/notifications', name: 'notif')]
-public function notif(NotificationRepository $notifRepo)
-{
-    $user = $this->getUser();
-
-    $notifications = $notifRepo->findBy(['user' => $user], ['createdAt' => 'DESC']);
-
-    return $this->render('notification/index.html.twig', [
-        'notifications' => $notifications,
-    ]);
-}
+    public function notif(NotificationRepository $notifRepo): Response
+    {
+        $user = $this->getUser();
+    
+        // Récupérer toutes les notifications de l'utilisateur connecté
+        $notifications = $notifRepo->findBy(['user' => $user], ['createdAt' => 'DESC']);
+    
+        // Filtrer les "Match Requests" (par exemple, celles où un utilisateur a accepté une demande)
+        $matchRequests = $notifRepo->findBy([
+            'user' => $user,
+            'status' => 'accepted',
+        ]);
+        
+        
+    
+        return $this->render('notification/index.html.twig', [
+            'notifications' => $notifications,
+            'matchRequests' => $matchRequests,
+        ]);
+    }
+    
 
 
     #[Route('/notifications/{id}/mark-read', name: 'notif_mark_read', methods: ['POST'])]

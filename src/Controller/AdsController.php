@@ -74,6 +74,7 @@ class AdsController extends AbstractController
         // Création de la notification pour l'auteur de l'annonce
         $notification = new Notification();
         $notification->setUser($ad->getUser()); // Auteur de l'annonce
+        $notification->setStatus('pending');
         $notification->setSender($currentUser); // Participant
         $notification->setMessage($currentUser->getFullName() . " souhaite participer à votre annonce \"" . $ad->getTitle() . "\"");
         $notification->setAd($ad); // Associer l'annonce

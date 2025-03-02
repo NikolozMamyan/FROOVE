@@ -98,9 +98,16 @@
                        <div class="modal-footer d-flex justify-content-center align-items-center">
     <div id="modalMessageContainer-{{ ad.id }}" class="w-100 text-center"></div>
     <a href="{{path('app_ads')}}" class="mx-2"><img src="{{ asset('/img/icones/nop.svg') }}"/></a>
-    <a href="#" class="mx-2 participate-btn" data-ad-id="{{ ad.id }}">
-        <img src="{{ asset('/img/icones/like.svg') }}"/>
-    </a>
+<a href="#"
+   class="mx-2 participate-btn"
+   data-controller="participate"
+   data-action="click->participate#send"
+   data-ad-id="{{ ad.id }}">
+    <img src="{{ asset('/img/icones/like.svg') }}"
+         alt="Like"
+         data-participate-target="likeImg"/>
+</a>
+
 </div>
                 </div>
             </div>
@@ -108,6 +115,4 @@
     {% endfor %}
     </div>
 </div>
-<script src="{{ asset('js/ads.js') }}" data-turbo="false"> </script>
-
 {% endblock %}

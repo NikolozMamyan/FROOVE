@@ -79,92 +79,57 @@ body {
 
 
 </style>
- <div class="container mt-4">
-        <div class="notification-list">
-            <h5 class="mb-3">Notifications</h5>
-            <div class="notification-item d-flex align-items-center justify-content-between mb-3">
-                <div class="d-flex align-items-center">
-                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Jenny sing">
-                    <div>
-                        <strong>Jenny sing</strong> <span>Liked your photos</span>
+<div class="container mt-4">
+    <!-- Liste des Notifications -->
+    <div class="notification-list">
+        <h5 class="mb-3">Notifications</h5>
+        {% for notification in notifications %}
+            {% if notification.status != 'accepted' %}
+                <div class="notification-item d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="{{ notification.sender.fullName }}">
+                        <div>
+                            <strong>{{ notification.sender.fullName }}</strong>
+                            <span>{{ notification.message }}</span>
+                        </div>
                     </div>
-                </div>
-                <span class="text-muted">Today</span>
-            </div>
 
-            <div class="notification-item d-flex align-items-center justify-content-between mb-3">
-                <div class="d-flex align-items-center">
-                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Katty pary">
-                    <div>
-                        <strong>Katty pary</strong> <span>Send you Request</span>
-                    </div>
+                    <!-- Boutons pour les demandes "pending" -->
+                    {% if notification.status == 'pending' %}
+                        <div>
+                            <a href="{{ path('app_notification_accept', { id: notification.id }) }}" class="btn btn-primary btn-sm">Accept</a>
+                            <a href="{{ path('app_notification_reject', { id: notification.id }) }}" class="btn btn-secondary btn-sm">Reject</a>
+                        </div>
+                    {% endif %}
+                    <span class="text-muted">{{ notification.createdAt|date('d/m/Y H:i') }}</span>
                 </div>
-                <span class="text-muted">4 Hour ago</span>
-            </div>
-
-            <div class="notification-item d-flex align-items-center justify-content-between mb-3">
-                <div class="d-flex align-items-center">
-                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="camilia calbo">
-                    <div>
-                        <strong>camilia calbo</strong> <span>Like your post</span>
-                    </div>
-                </div>
-                <span class="text-muted">4 Hour ago</span>
-            </div>
-
-            <div class="notification-item d-flex align-items-center justify-content-between mb-3">
-                <div class="d-flex align-items-center">
-                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Anna khan">
-                    <div>
-                        <strong>Anna khan</strong> <span>Like your photo</span>
-                    </div>
-                </div>
-                <span class="text-muted">6 Hour ago</span>
-            </div>
-        </div>
-
-        <div class="match-request mt-4">
-            <h5 class="mb-3">Match Request</h5>
-            <div class="request-item d-flex align-items-center justify-content-between mb-3">
-                <div class="d-flex align-items-center">
-                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Katty pary">
-                    <div>
-                        <strong>Katty pary</strong> <span>Send you Request</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary">Accept</button>
-            </div>
-
-            <div class="request-item d-flex align-items-center justify-content-between mb-3">
-                <div class="d-flex align-items-center">
-                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Rihanna.j">
-                    <div>
-                        <strong>Rihanna.j</strong> <span>Send you Request</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary">Accept</button>
-            </div>
-
-            <div class="request-item d-flex align-items-center justify-content-between mb-3">
-                <div class="d-flex align-items-center">
-                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Jeniffer.L">
-                    <div>
-                        <strong>Jeniffer.L</strong> <span>Send you Request</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary">Accept</button>
-            </div>
-
-            <div class="request-item d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center">
-                    <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="Taylor.S">
-                    <div>
-                        <strong>Taylor.S</strong> <span>Send you Request</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary">Accept</button>
-            </div>
-        </div>
+            {% endif %}
+        {% else %}
+            <p>Aucune notification disponible pour le moment.</p>
+        {% endfor %}
     </div>
+
+    <!-- Section Match Request -->
+    <div class="match-request mt-4">
+        <h5 class="mb-3">Match Request</h5>
+        {% for notification in notifications %}
+            {% if notification.status == 'accepted' %}
+                <div class="request-item d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="https://picsum.photos/200" class="rounded-circle me-3" alt="{{ notification.sender.fullName }}">
+                        <div>
+                            <strong>{{ notification.sender.fullName }}</strong>
+                            <span>{{ notification.message }}</span>
+                        </div>
+                    </div>
+                    <span class="text-muted">{{ notification.createdAt|date('d/m/Y H:i') }}</span>
+                </div>
+            {% endif %}
+        {% else %}
+            <p>Aucune demande acceptée pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
 
 {% endblock %}

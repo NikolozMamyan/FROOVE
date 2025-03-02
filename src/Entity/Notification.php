@@ -30,6 +30,10 @@ class Notification
     #[ORM\Column(type: 'boolean')]
     private bool $isRead = false;
 
+    #[ORM\Column(type: 'string', length: 20)]
+private string $status = 'pending'; // Valeurs possibles : 'pending', 'accepted', 'rejected'
+
+
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $createdAt = null;
 
@@ -113,5 +117,16 @@ public function setAd(?Ads $ad): self
     $this->ad = $ad;
     return $this;
 }
+public function getStatus(): string
+{
+    return $this->status;
+}
+
+public function setStatus(string $status): self
+{
+    $this->status = $status;
+    return $this;
+}
+
 
 }
